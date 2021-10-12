@@ -1,0 +1,29 @@
+#include <bits/stdc++.h>
+using namespace std;
+const long long MOD=1e9+7;
+long long exponent(long long a,long long n)
+{
+  int ans=1;
+  while(n>=1)
+  {
+    if(n%2==0)
+    {
+      a=(a*a)%MOD;
+      n/=2;
+    }
+    else
+    {
+      ans=(ans*a)%MOD;
+      n--;
+    }
+  }
+  return ans;
+}
+int main()
+{
+int n,power;
+cin >> n >> power;
+cout << exponent(n,power);
+
+return 0;
+}

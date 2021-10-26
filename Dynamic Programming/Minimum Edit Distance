@@ -1,0 +1,37 @@
+#include <bits/stdc++.h>
+using namespace std;
+int dp[10005][10005];
+int editdistance(string a,string b,int c1,int c2,int c3)
+{
+    for(int i=0;i<=b.size();i++)
+    {
+     dp[i][0]=i*c2;
+    }
+    for(int i=0;i<=a.size();i++)
+    {
+        dp[0][i]=i*c1;
+    }
+    for(int i=1;i<=a.size();i++)
+    {
+        for(int j=1;j<=b.size();j++)
+        {
+            dp[i][j]=c1+dp[i][j-1];//insert
+            dp[i][j]=min(dp[i][j],c2+dp[i-1][j]);//delete
+            dp[i][j]=min(dp[i][j],c3+dp[i-1][j-1]);//replace
+            if(a[i-1]==b[j-1])
+            {
+                dp[i][j]=min(dp[i][j],dp[i-1][j-1]);//same element
+            }
+        }
+    }
+    return dp[a.size()][b.size()];
+}
+int main()
+{
+    string a,b;
+    cin >> a >> b;
+    int c1,c2,c3;
+    cin >> c1 >> c2 >> c3;
+    cout << editdistance(a,b,c1,c2,c3);
+return 0;
+}

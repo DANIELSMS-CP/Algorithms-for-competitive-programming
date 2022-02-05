@@ -1,0 +1,90 @@
+#include <bits/stdc++.h>
+using namespace std;
+//constant
+const int mod=1e9+7;
+const int inf=(int)1e9;
+ 
+//define
+#define PB push_back
+#define MP make_pair
+#define pi acos(-1);
+//#define int long long
+ 
+//typedef
+typedef long long ll;
+typedef pair<int,int> pii;
+typedef map<int,int> mii;
+typedef map<string,int> msi;
+typedef set<int> SI;
+typedef priority_queue<int> pqi;
+
+struct edge
+{
+    int a,b,cost;
+};
+vector<edge> e(2505);
+vector<int> d(2505);
+int V,E;
+bool negative_cycle=0;
+
+void bellman_ford(int s)
+{
+    d[s]=0;
+    int x;
+    for(int i=0;i<V-1;i++)
+    {
+        x=-1;
+        for(int j=0;j<E;j++)
+        {
+            if(d[e[j].a]<inf)
+            {
+                if(d[e[j].b]>d[e[j].a]+e[j].cost)
+                {
+                    d[e[j].b]=max(-inf,d[e[j].a]+e[j].cost);
+                    x=e[j].b;
+                }
+            }
+        }
+    }
+    if(x!=-1)
+    {
+        negative_cycle=1;
+    }
+}
+
+signed main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        fill(d.begin(),d.end(),inf);
+        e.clear();
+        cin >> V >> E;
+        negative_cycle=0;
+        for(int i=0;i<E;i++)
+        {
+            cin >> e[i].a >> e[i].b >> e[i].cost;
+        }
+        bellman_ford(0);
+        if(negative_cycle)
+        {
+            cout << "Negative Cycle\n";
+            continue;
+        }
+        if(d[V-1]==inf)
+        {
+            cout << "Not Visited\n";
+            continue;
+        }
+        else
+        {
+            cout << d[V-1] << '\n';
+            continue;
+        }
+    }
+
+    return 0;
+}

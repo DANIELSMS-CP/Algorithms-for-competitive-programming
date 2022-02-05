@@ -1,0 +1,71 @@
+//finding shortest distance from node a to b
+#include <bits/stdc++.h>
+using namespace std;
+//constant
+const int mod=1e9+7;
+const int inf=(int)1e9;
+ 
+//define
+#define PB push_back
+#define MP make_pair
+#define pi acos(-1);
+//#define int long long
+ 
+//typedef
+typedef long long ll;
+typedef pair<int,int> pii;
+typedef map<int,int> mii;
+typedef map<string,int> msi;
+typedef set<int> SI;
+typedef priority_queue<int> pqi;
+
+vector<pair<int,int>> adjlist[20005];
+vector<int> d(2505),p(2505);
+vector<int> vis(2505);
+int V,E,a,b;
+
+void dijkstra(int a)
+{
+    d[a]=0;
+    priority_queue<pair<ll,ll>,vector<pair<ll,ll>>,greater<pair<ll,ll>>> pq;
+    pq.push({0,a});
+    while(!pq.empty())
+    {
+        auto x=pq.top();
+        pq.pop();
+        if(vis[x.second])
+        {
+            continue;
+        }
+        vis[x.second]=1;
+        for(auto i:adjlist[x.second])
+        {
+            if(d[i.first]>d[x.second]+i.second)
+            {
+                d[i.first]=d[x.second]+i.second;
+                p[i.first]=x.second;
+                pq.push({d[i.first],i.first});
+            }
+        }
+    }
+}
+
+signed main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    fill(d.begin(),d.end(),inf);
+    fill(p.begin(),p.end(),-1);
+    cin >> V >> E >> a >> b;
+    while(E--)
+    {
+        int x,y,z;
+        cin >> x >> y >> z;
+        adjlist[x].push_back({y,z});
+        adjlist[y].push_back({x,z});
+    }
+    dijkstra(a);
+    cout << d[b] << '\n';
+
+    return 0;
+}

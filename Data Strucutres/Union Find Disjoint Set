@@ -1,0 +1,33 @@
+struct UnionFind
+{
+    vector<int> par,sz;
+    UnionFind(int n)
+    {
+        par.resize(n+1);
+        sz.rezie(n+1,1);
+        for(int i=1;i<=n;i++)
+        {
+            par[i]=i;
+        }
+    }
+    int find(int x)
+    {
+        return (par[x]==x?x:par[x]=find(x));
+    }
+    bool merge(int x,int y)
+    {
+        int a=find(x);
+        int b=find(y);
+        if(a!=b)
+        {
+            par[a]=b;
+            sz[x]+=sz[y];
+            return 0;
+        }
+        return 1;
+    }
+    bool connected(int x,int y)
+    {
+        return find(x)==find(y);
+    }
+};

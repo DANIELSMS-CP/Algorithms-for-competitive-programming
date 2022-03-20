@@ -1,0 +1,65 @@
+int n,q;
+vector<int> a;
+vector<int> tree;
+int x,y;
+void build(int l,int r,int pos)
+{
+    if(l>r)
+    {
+        return;
+    }
+    if(l==r)
+    {
+        tree[pos]=a[l];
+        return;
+    }
+    int mid=(l+r)/2;
+    build(l,mid,pos*2+1);
+    build(mid+1,r,pos*2+2);
+    int left=tree[pos*2+1];
+    int right=tree[pos*2+2];
+    tree[pos]=min(left,right);
+    return;
+}
+int mn(int l,int r,int pos)
+{
+    if(l>=x and r<=y)
+    {
+        return tree[pos];
+    }
+    if(l>y or r<x)
+    {
+        return inf;
+    }
+    int mid=(l+r)/2;
+    int kr=mn(l,mid,2*pos+1);
+    int kn=mn(mid+1,r,2*pos+2);
+    return min(kn,kr);
+}
+signed main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    //freopen("problems.in", "r", stdin);
+    //freopen("problems.out", "w", stdout);
+    cin >> n >> q;
+    a.resize(n);
+    for(int i=0;i<n;i++)
+    {
+        cin >> a[i];
+    }
+    tree.resize(4*n);
+    build(0,n-1,0);
+    /*for(auto i:tree)
+    {
+        cout << i << ' ';
+    }*/
+    while(q--)
+    {
+        cin >> x >> y;
+        x--,y--;
+        cout << mn(0,n-1,0) << '\n';
+    }
+
+    return 0;
+}

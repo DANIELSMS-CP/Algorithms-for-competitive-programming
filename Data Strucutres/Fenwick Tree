@@ -1,0 +1,23 @@
+struct nekowick_tree{
+    int n;
+    vector<long long> tree;
+
+    johnwick_tree(int n) {
+        this->n = n;
+        tree.resize(n+1);
+    }
+
+    void update(int p, long long val){
+        for (int i = p; i <= n; i += i & -i) {
+            tree[i] += val;
+        }
+    }
+
+    long long sum(int p) {
+        long long ans = 0;
+        for (int i = p; i; i -= i & -i) {
+            ans += tree[i];
+        }
+        return ans;
+    }
+};
